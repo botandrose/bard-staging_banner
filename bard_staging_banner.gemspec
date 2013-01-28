@@ -8,9 +8,9 @@ Gem::Specification.new do |gem|
   gem.version       = BardStagingBanner::VERSION
   gem.authors       = ["Micah Geisel"]
   gem.email         = ["micah@botandrose.com"]
-  gem.description   = %q{TODO: Write a gem description}
-  gem.summary       = %q{TODO: Write a gem summary}
-  gem.homepage      = ""
+  gem.description   = %q{Middleware to inject an annoying banner on every page in the staging environment}
+  gem.summary       = %q{Middleware to inject an annoying banner on every page in the staging environment}
+  gem.homepage      = "https://github.com/botandrose/bard_staging_banner"
 
   gem.files         = `git ls-files`.split($/)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }

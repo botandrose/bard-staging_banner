@@ -1,6 +1,6 @@
 # BardStagingBanner
 
-TODO: Write a gem description
+Middleware to inject an annoying banner on every page in the staging environment.
 
 ## Installation
 
@@ -18,7 +18,7 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Comes with a Railtie, so zero-conf, if you have a Rails environment named "staging."
 
 ## Contributing
 

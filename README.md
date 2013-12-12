@@ -1,4 +1,4 @@
-# BardStagingBanner
+# Bard::StagingBanner
 
 Middleware to inject an annoying banner on every page in the staging environment.
 
@@ -6,7 +6,7 @@ Middleware to inject an annoying banner on every page in the staging environment
 
 Add this line to your application's Gemfile:
 
-    gem 'bard_staging_banner'
+    gem 'bard-staging_banner'
 
 And then execute:
 
@@ -14,7 +14,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install bard_staging_banner
+    $ gem install bard-staging_banner
 
 ## Usage
 

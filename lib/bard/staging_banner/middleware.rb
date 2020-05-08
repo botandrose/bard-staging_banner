@@ -25,7 +25,54 @@ module Bard
       end
 
       def inject response
-        markup = %(<div id="staging-banner" style="background: yellow; color: black; position: fixed; bottom: 0; left: 0; width: 100%; font: bold 16pt Arial; line-height: 1.5em; text-align: center; z-index: 999;">You are on the Staging Site</div>)
+        markup = <<~HTML
+          <div id="staging-banner-top"></div>
+          <div id="staging-banner-bottom"></div>
+          <style>
+            #staging-banner-top:before, #staging-banner-top:after, #staging-banner-bottom:before, #staging-banner-bottom:after {
+              display: flex;
+              justify-content: center;
+              align-items: flex-end;
+              padding: 30px 0 10px;
+              content: "Staging";
+              width: 200px;
+              background: yellow;
+              color: #0f0f0f;
+              position: fixed;
+              z-index: 99999;
+              font-weight: 900;
+              font-size: 1.2em;
+              text-transform: uppercase;
+              text-align: center;
+              box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+              transform-origin: 50% 50%;
+            }
+
+            #staging-banner-top:before {
+              top: 0;
+              left: 0;
+              transform: rotate(-45deg) translate(-52px, -60px);
+            }
+
+            #staging-banner-top:after {
+              top: 0;
+              right: 0;
+              transform: rotate(45deg) translate(52px, -60px);
+            }
+
+            #staging-banner-bottom:before {
+              bottom: 0;
+              left: 0;
+              transform: rotate(225deg) translate(52px, -60px);
+            }
+
+            #staging-banner-bottom:after {
+              bottom: 0;
+              right: 0;
+              transform: rotate(-225deg) translate(-52px, -60px);
+            }
+          </style>
+        HTML
         response.gsub(%r{</body>}, "#{markup}</body>")
       end
     end

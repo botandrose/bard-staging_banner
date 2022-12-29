@@ -7,7 +7,7 @@ module Bard
 
       def call env
         @status, @headers, @body = @app.call(env)
-        return [@status, @headers, @body] unless html?
+        return [@status, @headers, @body] unless html? && !letter_opener_web?(env)
 
         response = Rack::Response.new([], @status, @headers)
         @body.each do |fragment|
@@ -24,17 +24,28 @@ module Bard
         @headers["Content-Type"] =~ /html/
       end
 
+      def letter_opener_web? env
+        env["SCRIPT_NAME"].start_with?("/mails")
+      end
+
+      def mail_count
+        LetterOpenerWeb::Letter.search.length
+      end
+
       def inject response
-        markup = <<~HTML
-          <div id="staging-banner-top"></div>
-          <div id="staging-banner-bottom"></div>
+        count = mail_count
+        mail_link = %(<a href="/mails">(#{mail_count})</a>) if count > 0 
+        html = %w[upper-left upper-right bottom-left bottom-right].map do |corner|
+          %(<div class="staging-banner" id="#{corner}">Staging #{mail_link}</div>)
+        end.join("\n")
+
+        markup = html + <<~CSS
           <style>
-            #staging-banner-top:before, #staging-banner-top:after, #staging-banner-bottom:before, #staging-banner-bottom:after {
+            .staging-banner {
               display: flex;
               justify-content: center;
               align-items: flex-end;
               padding: 30px 0 10px;
-              content: "Staging";
               width: 200px;
               background: yellow;
               color: #0f0f0f;
@@ -48,31 +59,31 @@ module Bard
               transform-origin: 50% 50%;
             }
 
-            #staging-banner-top:before {
+            #upper-left {
               top: 0;
               left: 0;
               transform: rotate(-45deg) translate(-52px, -60px);
             }
 
-            #staging-banner-top:after {
+            #upper-right {
               top: 0;
               right: 0;
               transform: rotate(45deg) translate(52px, -60px);
             }
 
-            #staging-banner-bottom:before {
+            #bottom-left {
               bottom: 0;
               left: 0;
               transform: rotate(225deg) translate(52px, -60px);
             }
 
-            #staging-banner-bottom:after {
+            #bottom-right {
               bottom: 0;
               right: 0;
               transform: rotate(-225deg) translate(-52px, -60px);
             }
           </style>
-        HTML
+        CSS
         response.gsub(%r{</body>}, "#{markup}</body>")
       end
     end

@@ -8,7 +8,7 @@ module Bard
         config.app_middleware.use Middleware
       end
 
-      if !Rails.env.production? && defined?(ActionMailer)
+      if defined?(ActionMailer) && %w[development staging].include?(Rails.env)
         initializer "bard-staging_banner.mount_letter_opener_web" do |app|
           require "letter_opener_web"
 

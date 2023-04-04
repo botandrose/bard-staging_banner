@@ -9,6 +9,8 @@ module Bard
       end
 
       if defined?(ActionMailer) && %w[development staging].include?(Rails.env)
+        require "letter_opener_web"
+
         initializer "bard-staging_banner.mount_letter_opener_web" do |app|
           require "letter_opener_web"
 

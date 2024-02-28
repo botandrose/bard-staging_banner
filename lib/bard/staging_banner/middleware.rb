@@ -34,9 +34,10 @@ module Bard
 
       def inject response
         count = mail_count
-        mail_link = %(<a href="/mails">(#{mail_count})</a>) if count > 0 
-        html = %w[upper-left upper-right bottom-left bottom-right].map do |corner|
-          %(<div class="staging-banner" id="#{corner}">Staging #{mail_link}</div>)
+        mail_link = %(<a href="/mails">(#{mail_count})</a>) if count > 0
+        html = %(<div class="staging-banner" id="upper-left">Staging #{mail_link}</div>)
+        html += %w[upper-right bottom-left bottom-right].map do |corner|
+          %(<div class="staging-banner" id="#{corner}"></div>)
         end.join("\n")
 
         markup = html + <<~CSS
@@ -57,6 +58,7 @@ module Bard
               text-align: center;
               box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
               transform-origin: 50% 50%;
+              opacity: 0.75;
             }
 
             #upper-left {
@@ -69,18 +71,21 @@ module Bard
               top: 0;
               right: 0;
               transform: rotate(45deg) translate(52px, -60px);
+              pointer-events: none;
             }
 
             #bottom-left {
               bottom: 0;
               left: 0;
               transform: rotate(225deg) translate(52px, -60px);
+              pointer-events: none;
             }
 
             #bottom-right {
               bottom: 0;
               right: 0;
               transform: rotate(-225deg) translate(-52px, -60px);
+              pointer-events: none;
             }
           </style>
         CSS
@@ -89,4 +94,3 @@ module Bard
     end
   end
 end
-

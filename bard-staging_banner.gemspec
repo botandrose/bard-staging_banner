@@ -17,5 +17,6 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
 
   gem.add_dependency "letter_opener_web"
+  gem.add_dependency "rexml" # is a dependency of letter_opener_web, but was bundled with ruby 2. needs to be explict to use it with ruby 3
 end
 
